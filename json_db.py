@@ -1,7 +1,6 @@
 import json
 import hashlib
 
-
 class jsonDB:
     def __init__(self, file_name: str):
         self.file_name = file_name
@@ -50,10 +49,6 @@ class jsonCollection(jsonDB):
             id_list.append(self.insert_one(item))
             
         return id_list
-        
-    # def print(self):
-    #     dict = self.get()
-    #     print(json.dumps(dict, indent=2, ensure_ascii=False))
     
     def getColl(self):
         dict = self.getDB()
@@ -61,27 +56,13 @@ class jsonCollection(jsonDB):
             coll = dict[self.collection_name]["items"]
         except KeyError:
             coll = []
-        # print(json.dumps(coll, indent=2, ensure_ascii=False))
         return coll
 
     def writeColl(self, coll):
         dict = self.getDB()
-        #print(dict)
         try:
             dict[self.collection_name]["items"] = coll
         except KeyError:
             dict = { self.collection_name : {} }
             dict[self.collection_name]["items"] = coll
-        #print(dict)
         self.writeDB(dict)
-
-    def tmp_func(self, python_dict):
-        coll = self.getColl()
-        print(coll)
-        
-        python_dict["_id"] = hashlib.md5(str(python_dict).encode()).hexdigest()
-        #print(hashlib.sha256(str(python_dict).encode()).hexdigest())
-        #for entry in coll:
-        #    print(entry['_id'])
-        if any(entry["_id"] == python_dict["_id"] for entry in coll):
-            print("Hallo! Bin bereits vorhanden!")
